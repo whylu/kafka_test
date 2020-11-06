@@ -1,3 +1,7 @@
+## partition vs consumer
+One partition is always asigned to `only one` consumer in `one group`.
+
+
 ```
 # Scenario 1
  2 partitions, 1 consumer 
