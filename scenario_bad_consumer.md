@@ -20,8 +20,9 @@ when consumer A is very slow or dead, those message in partition 1 is blocked
 
 
 # how to handle this 
-
-This means the time between subsequent calls to poll() was longer than the `configured max.poll.interval.ms`, which typically implies that the poll loop is spending too much time processing messages.   
+Set `max.poll.interval.ms` with a value which is unacceptable for the application.  
+Consumer will raise a timeout event and send `LeaveGroup` request to broker.  
+This means the time between subsequent calls to poll() was longer than the configured `max.poll.interval.ms`, which typically implies that the poll loop is spending too much time processing messages.   
 You can address this either by increasing `max.poll.interval.ms` or by reducing the maximum size of batches returned in poll() with `max.poll.records`.
 
 
@@ -53,7 +54,7 @@ and one consumer with delay, to simulate break consumer
             e.printStackTrace();
         }
     }
-    
+
     @EventListener
     public void nonResponsiveEventHandler(NonResponsiveConsumerEvent event) {
         log.warn("Consumer has become non-responsive, no poll for {} milliseconds. Listener {}, TopicPartitions {}, Consumer: {}",
